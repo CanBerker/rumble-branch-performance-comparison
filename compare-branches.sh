@@ -8,11 +8,11 @@ repetition_count=${3:-5}
 dataset=${4:-"large"}       # large, medium, small
 project_root=${5:-"../rumble"}
 
-echo $branch1
-echo $branch2
-echo $repetition_count
-echo $dataset
-echo $project_root
+echo "branch1: $branch1"
+echo "branch2: $branch2"
+echo "repetition_count: $repetition_count"
+echo "dataset: $dataset"
+echo "project_root: $project_root"
 
 # get jars from project branches
 for branch_index in 1 2
