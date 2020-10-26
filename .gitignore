@@ -3,3 +3,4 @@
 *output*.txt
 __pycache__
 spark-warehouse
+bin
