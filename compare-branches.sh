@@ -6,24 +6,26 @@ branch1=$1
 branch2=${2:-master}
 repetition_count=${3:-5}
 dataset=${4:-"large"}       # large, medium, small
-project_root=${5:-"../rumble"}
+rumble_project_root=${5:-"../rumble"}
 
 echo "branch1: $branch1"
 echo "branch2: $branch2"
 echo "repetition_count: $repetition_count"
 echo "dataset: $dataset"
-echo "project_root: $project_root"
+echo "rumble_project_root: $rumble_project_root"
 
 # get jars from project branches
 for branch_index in 1 2
 do
     branch_name="branch$branch_index"
     echo "Getting jar for branch: ${!branch_name}"
-    pushd $project_root
+    pushd $rumble_project_root
     git checkout ${!branch_name}
     mvn clean compile assembly:single
     popd
-    find ../rumble/target/ -name "*.jar" -exec cp {} "./bin/${!branch_name}_exec.jar" \;
+    mkdir -p bin
+    chmod -R 755 bin
+    find ../rumble/target/ -name "*.jar" -exec cp {} "bin/${!branch_name}_exec.jar" \;
 done
 
 # clean leftover logs and outputs
@@ -46,7 +48,7 @@ do
             query_ouput_path="./output/${dataset}-${branch}-${query}-output${i}.txt"
             query_log_path="./output/${dataset}-${branch}-${query}-log${i}.txt"
 
-            spark-submit --master local[*] "./bin/${branch}_exec.jar" --query-path "${query_path}" --output-path "${query_ouput_path}" --log-path "${query_log_path}" --result-size 16000000
+            spark-submit --master local[*] "bin/${branch}_exec.jar" --query-path "${query_path}" --output-path "${query_ouput_path}" --log-path "${query_log_path}" --result-size 16000000
         done
     done
 done

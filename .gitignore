@@ -1,6 +1,8 @@
 .DS_Store
 .directory
-*output*.txt
+**/*output*
+**/*log*
 __pycache__
 spark-warehouse
 bin
+confusion*
