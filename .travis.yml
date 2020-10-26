@@ -5,6 +5,7 @@ before_script:
   - _JAVA_OPTIONS="-Xmx8192m -Xms512m"
 script:
   # Download Rumble
+  - echo "pwd: $(pwd)"
   - pushd ..
   - git clone https://github.com/RumbleDB/rumble.git
   - cd rumble
@@ -28,9 +29,11 @@ script:
   - head -n 500000 confusion-2014-03-02.json > confusion500k.json
   - head -n 5000000 confusion-2014-03-02.json > confusion5m.json
   - popd
+  - ls ..
+  - ls 
 
   # .sh, branch1, branch2, dataset_size, project_root
-  - ./compare-branches.sh 1.2 master 1 large "../rumble"
+  #- ./compare-branches.sh 1.2 master 1 large "../rumble"
 cache:
   directories:
     - $HOME/.m2
