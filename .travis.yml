@@ -7,30 +7,30 @@ script:
   # Download Rumble
   - pushd ..
   - git clone https://github.com/RumbleDB/rumble.git
-  - cd rumble
+  - pushd rumble
   - mvn install -DskipTests -Dgpg.skip
+  - popd
   - popd
   
   # Download Spark
   - mkdir -p /opt
-  - wget -q -O /opt/spark.tgz https://downloads.apache.org/spark/spark-2.4.6/spark-2.4.6-bin-hadoop2.7.tgz
+  - wget -q -O /opt/spark.tgz https://downloads.apache.org/spark/spark-2.4.7/spark-2.4.7-bin-hadoop2.7.tgz
   - tar xzf /opt/spark.tgz -C /opt/
   - rm /opt/spark.tgz
-  - export SPARK_HOME=/opt/spark-2.4.6-bin-hadoop2.7
-  - export PATH=$PATH:/opt/spark-2.4.6-bin-hadoop2.7/bin
+  - export SPARK_HOME=/opt/spark-2.4.7-bin-hadoop2.7
+  - export PATH=$PATH:/opt/spark-2.4.7-bin-hadoop2.7/bin
 
   # Download and prepare dataset
-  - pushd ..
   - wget -q -O confusion-2014-03-02.tbz2 http://data.greatlanguagegame.com.s3.amazonaws.com/confusion-2014-03-02.tbz2
   - tar -xvjf confusion-2014-03-02.tbz2
   - rm  confusion-2014-03-02.tbz2
-  - cd confusion-2014-03-02
+  - pushd confusion-2014-03-02
   - head -n 500000 confusion-2014-03-02.json > confusion500k.json
   - head -n 5000000 confusion-2014-03-02.json > confusion5m.json
   - popd
 
   # .sh, branch1, branch2, dataset_size, project_root
-  - ./compare-branches.sh 1.2 master 1 large "../rumble"
+  - ./compare-branches.sh v1.7.0 master 1 large "../rumble"
 cache:
   directories:
     - $HOME/.m2
